@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+
+    <!--文字字体-->
+    <color name="tv_key">#353535</color>
+    <color name="tv_value">#666666</color>
+
+    <!--整体布局背景-->
+    <color name="background">#f7f5f5</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#0d0c0c</color>
+</resources>

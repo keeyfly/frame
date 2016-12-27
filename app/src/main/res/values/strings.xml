@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Novel</string>
+    <string name="check_net_info_string">当前无网络连接</string>
+</resources>

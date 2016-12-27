@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+
+            <!-- 填充颜色 -->
+            <solid android:color="@color/gray_light"></solid>
+            <!-- 线的宽度，颜色灰色 -->
+            <stroke android:width="0px" android:color="@color/gray_light"></stroke>
+
+            <corners android:radius="0dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+
+            <!-- 填充颜色 -->
+            <solid android:color="@color/white"></solid>
+            <!-- 线的宽度，颜色灰色 -->
+            <stroke android:width="0px" android:color="@color/white"></stroke>
+
+            <corners android:radius="0dp" />
+        </shape>
+    </item>
+
+</selector>

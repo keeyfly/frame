@@ -1,0 +1,102 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="overlapAnchor">false</item>
+        <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
+        <item name="android:popupMenuStyle">@style/MenuStyle</item>
+        <!--自定义AlertDialog-->
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert.Self</item>
+        <!--导航栏上的标题颜色-->
+        <!--<item name="android:textColorPrimary">@android:color/white</item>-->
+        <!--Activity窗口的颜色-->
+        <!-- <item name="android:windowBackground">@color/material_blue_grey_800</item>-->
+        <!--        &lt;!&ndash;按钮选中或者点击获得焦点后的颜色&ndash;&gt;
+                <item name="colorAccent">#00ff00  修改表单颜色</item>
+                &lt;!&ndash;和 colorAccent相反，正常状态下按钮的颜色&ndash;&gt;
+                <item name="colorControlNormal">#ff0000</item>
+                &lt;!&ndash;Button按钮正常状态颜色&ndash;&gt;
+                <item name="colorButtonNormal">@color/accent_material_light</item>
+                &lt;!&ndash;EditText 输入框中字体的颜色&ndash;&gt;
+                <item name="editTextColor">@android:color/white</item>-->
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="actionOverflowMenuStyle">@style/MenuStyle</item>
+    </style>
+
+    <style name="MenuTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="MenuStyle" parent="@style/Base.Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+        <item name="android:dropDownVerticalOffset">5dip</item>
+        <item name="android:dropDownWidth">wrap_content</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
+        <!-- ①<item name="android:popupBackground">?attr/colorPrimary</item>：弹出菜单背景色为标题栏的背景色
+             ②<item name="android:dropDownVerticalOffset">0dip</item>：弹出菜单与标题栏的垂直间距 -->
+    </style>
+
+    <style name="OverflowButtonStyle">
+        <item name="android:maxWidth">60dip</item>
+        <item name="android:maxHeight">100dip</item>
+    </style>
+
+    <style name="Theme.AppCompat.Light.Dialog.Alert.Self" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+        <!--修改AlertDialog按钮的颜色-->
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+
+    <style name="text_key">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/tv_key</item>
+    </style>
+
+    <style name="text_value">
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/tv_value</item>
+    </style>
+
+    <style name="view_line_horizontal" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:layout_height">0.7dip</item>
+    </style>
+
+    <style name="view_line_vertical" parent="AppTheme">
+        <item name="android:layout_width">0.7dip</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+    <style name="dialog_setting" parent="@android:style/Theme.Dialog">
+        <!--背景透明-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@android:color/transparent</item>
+        <!--半透明-->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--Dialog以外的区域模糊效果-->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!--浮于Activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--设置全屏-->
+        <item name="android:windowFullscreen">false</item>
+        <!--无标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!--  Dialog进入及退出动画
+          <item name="android:windowAnimationStyle">@style/dialog_animation</item>- -->
+    </style>
+</resources>
