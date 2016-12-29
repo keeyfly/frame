@@ -1,0 +1,42 @@
+
+    //private final BaseFace baseFace = new BaseFace();
+
+
+    /*  public void requestPost(Context context, String url, Map<String, String> map, final ModelCallBack faceCallBack) throws IOException {
+          baseFace.setClient(context);
+          baseFace.postRequest(url, map, new BaseFace.RequestHttpListener() {
+              @Override
+              public void requestResult(String string) {
+                  if (null != string && !string.equals("")) {
+                      try {
+                          Objects objects = new Gson().fromJson(string, new TypeToken<Objects>() {
+                          }.getType());
+                          faceCallBack.requestSuccess(objects);
+                      } catch (JsonSyntaxException e) {
+                          e.printStackTrace();
+                          faceCallBack.requestFiled("数据解析异常");
+                      }
+                  }
+              }
+          });
+      }
+
+      public void requestGet(Context context, String url, Map<String, String> map, final ModelCallBack faceCallBack) throws IOException {
+          baseFace.setClient(context);
+          baseFace.getRequest(url, new BaseFace.RequestHttpListener() {
+              @Override
+              public void requestResult(String string) {
+                  if (null != string && !string.equals("")) {
+                      try {
+                          Objects objects = new Gson().fromJson(string, new TypeToken<Objects>() {
+                          }.getType());
+                          faceCallBack.requestSuccess(objects);
+                      } catch (JsonSyntaxException e) {
+                          e.printStackTrace();
+                          faceCallBack.requestFiled("数据解析异常");
+                      }
+                  }
+              }
+          });
+      }
+  */

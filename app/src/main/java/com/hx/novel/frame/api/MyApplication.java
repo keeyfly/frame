@@ -15,6 +15,7 @@ import com.hx.novel.common.util.NetBroadcastReceiver;
 public class MyApplication extends Application {
     private static MyApplication instance;
     private NetBroadcastReceiver receiver;
+    public static final boolean ENCRYPTED = true;
 
     public static MyApplication getInstance() {
         return instance;
@@ -34,6 +35,17 @@ public class MyApplication extends Application {
         }
         CheckNet();
     }
+
+/*    private void initDao() {
+        DevOpenHelper helper = new DevOpenHelper(this, ENCRYPTED ? "notes-db-encrypted" : "notes-db");
+        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+        daoSession = new DaoMaster(db).newSession();
+
+    }
+
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }*/
 
     private void CheckNet() {
         receiver = new NetBroadcastReceiver();

@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/9/18.
+ * Created by 李贺翔 on 2016/9/18.
  */
 public class PreferenceHelper {
 

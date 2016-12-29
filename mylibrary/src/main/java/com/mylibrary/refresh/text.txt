@@ -1,0 +1,233 @@
+package com.qdhc.tms.depart;
+
+
+import android.content.Intent;
+import android.os.Handler;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.qdhc.tms.R;
+import com.qdhc.tms.common.constant.Constant;
+import com.qdhc.tms.common.util.Logger;
+import com.qdhc.tms.common.util.StringHelper;
+import com.qdhc.tms.common.view.refresh.OnLoadMoreListener;
+import com.qdhc.tms.common.view.refresh.PtrClassicFrameLayout;
+import com.qdhc.tms.common.view.refresh.PtrDefaultHandler;
+import com.qdhc.tms.common.view.refresh.PtrFrameLayout;
+import com.qdhc.tms.depart.adapter.DeliveryListAdapter;
+import com.qdhc.tms.depart.bean.DeliveryListInfo;
+import com.qdhc.tms.depart.detail.DeliveryDetailActivity_;
+import com.qdhc.tms.depart.presenter.DeliveryPresenter;
+import com.qdhc.tms.depart.util.OnDeliverySuccessListener;
+import com.qdhc.tms.depart.view.DeliveryView;
+import com.qdhc.tms.frame.BaseFragment;
+import com.qdhc.tms.frame.bean.FrameJson;
+import com.qdhc.tms.main.SetActivity_;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * filename  SignedConfirmActivity
+ * descriptions 发车确认
+ */
+@EFragment(R.layout.fragment_depart)
+public class DeliveryFragment extends BaseFragment {
+
+    @ViewById(R.id.search_view)
+    SearchView searchView;
+    @ViewById(R.id.id_toolbar)
+    Toolbar toolbar;
+    @ViewById(R.id.toolbar_center_title)
+    TextView title;
+    @ViewById(R.id.mListView)
+    ListView mListView;
+    @ViewById(R.id.list_view_frame)
+    PtrClassicFrameLayout ptrClassicFrameLayout;
+    Handler handler = new Handler();
+    DeliveryListAdapter mAdapter;
+    List<DeliveryListInfo.RowsBean> mList;
+    DeliveryPresenter departPresenter;
+    int pageNo = 1;
+    public static List<OnDeliverySuccessListener> onDeliverySuccessListeners = new ArrayList<>();
+
+    @AfterViews
+    void init() {
+        title.setText("发车确认");
+        departPresenter = new DeliveryPresenter(mContext, this.bindToLifecycle());
+        departPresenter.setDepartViewListener(new GetRequestDepartInfoListener());
+        setAdapter();
+        initMenu();
+        setRefresh();
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Intent intent = new Intent(mContext, DeliveryDetailActivity_.class);
+                intent.putExtra("deliveryOrderId", mList.get(position).getDelivery_id());
+                mContext.startActivity(intent);
+            }
+        });
+    }
+
+    void setRefresh() {
+        ptrClassicFrameLayout.setLoadMoreEnable(true);
+        ptrClassicFrameLayout.setAutoLoadMoreEnable(true);
+        ptrClassicFrameLayout.setKeepHeaderWhenRefresh(true);
+        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        pageNo = Constant.Page;
+                        getDeliveriesList();
+                    }
+                }, 1000);
+
+            }
+        });
+        ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
+            @Override
+            public void loadMore() {
+                handler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        getDeliveriesList();
+                    }
+                }, 1000);
+            }
+        });
+
+    }
+
+    void setAdapter() {
+        searchView.setVisibility(View.GONE);
+        mList = new ArrayList<>();
+        mAdapter = new DeliveryListAdapter(mContext, mList, departPresenter);
+        mListView.setAdapter(mAdapter);
+    }
+
+    private void initMenu() {
+        EditText edit = (EditText) searchView.findViewById(R.id.search_src_text);
+        edit.setTextSize(14);
+        edit.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1));
+        edit.setGravity(Gravity.CENTER_VERTICAL);
+        edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    String text = v.getText().toString();
+                    if (isUsable(text)) {
+                        getDeliveriesList();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mContext, SetActivity_.class));
+            }
+        });
+    }
+
+
+    private void getDeliveriesList() {
+        departPresenter.getQueryList(pageNo, Constant.Rows, "");
+    }
+
+    private boolean isUsable(String hint) {
+        if (hint.equals("")) {
+            return true;
+        } else if (!StringHelper.isVehicleLegal(hint)) {
+            Logger.toast(mContext, getString(R.string.tips_input_legal_car_num));
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void loadData() {
+        ptrClassicFrameLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ptrClassicFrameLayout.autoRefresh(true);
+            }
+        }, 150);
+    }
+
+    public class GetRequestDepartInfoListener implements DeliveryView {
+        @Override
+        public void getDepartListSuccess(DeliveryListInfo deliveryListInfo) {
+            ptrClassicFrameLayout.setRefreshFailedKey("");
+            if (deliveryListInfo != null) {
+                List<DeliveryListInfo.RowsBean> rows = deliveryListInfo.getRows();
+                if (rows != null) {
+                    if (rows.size() >= 0) {
+                        if (pageNo == Constant.Page) {
+                            mList.clear();
+                        }
+                        mList.addAll(rows);
+
+                        if (rows.size() >= Constant.Rows) {
+                            ptrClassicFrameLayout.loadMoreComplete(false);
+                        } else {
+                            ptrClassicFrameLayout.loadMoreComplete(true);
+                        }
+                        pageNo++;
+                    } else {
+                        ptrClassicFrameLayout.loadMoreComplete(true);
+                    }
+                }
+            }
+            mAdapter.notifyDataSetChanged();
+            ptrClassicFrameLayout.refreshComplete();
+
+        }
+
+        @Override
+        public void getDepartFiledListener(String result) {
+            Logger.toast(mContext, result);
+        }
+
+        @Override
+        public void getDepartSuccess(FrameJson departState) {
+            if (departState != null) {
+                for (OnDeliverySuccessListener onDeliverySuccessListener : onDeliverySuccessListeners) {
+                    onDeliverySuccessListener.onSuccess();
+                }
+                Logger.toast(mContext, departState.message);
+                pageNo = Constant.Page;
+                getDeliveriesList();
+            }
+        }
+
+        @Override
+        public void requestFiledListener(String string) {
+            ptrClassicFrameLayout.setRefreshFailedKey("刷新失败");
+            ptrClassicFrameLayout.setLoadFail();
+            Logger.toast(mContext, string);
+            ptrClassicFrameLayout.refreshComplete();
+        }
+    }
+}
