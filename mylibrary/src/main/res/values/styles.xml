@@ -5,6 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -14,4 +15,6 @@
         <item name="android:windowExitAnimation">@anim/picture_dismiss</item>
         <!-- 指定消失的动画xml -->
     </style>
+
+
 </resources>

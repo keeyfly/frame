@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="overlapAnchor">false</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
         <item name="android:popupMenuStyle">@style/MenuStyle</item>
         <!--自定义AlertDialog-->

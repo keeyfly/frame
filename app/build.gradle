@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "24.0.1"
@@ -10,11 +15,72 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        // dex突破65535的限制
+        multiDexEnabled true
     }
-    buildTypes {
+
+    //执行lint检查，有任何的错误或者警告提示，都会终止构建，我们可以将其关掉。
+    lintOptions {
+        abortOnError false
+    }
+
+/*    def keystoreFilepath;
+    def keystorePSW = ''
+    def keystoreAlias = ''
+    def keystoreAliasPSW = ''
+    def keyFile = file('s.keystore.temp')
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    keystoreFilepath = properties.getProperty("keystore.storeFile")
+    keystorePSW = properties.getProperty("keystore.storePassword")
+    keystoreAlias = properties.getProperty("keystore.keyAlias")
+    keystoreAliasPSW = properties.getProperty("keystore.keyPassword")
+    keyFile = file(keystoreFilepath)
+
+    //签名
+    signingConfigs {
+        debug {
+            keyAlias keystoreAlias
+            keyPassword keystoreAliasPSW
+            storeFile keyFile
+            storePassword keystorePSW
+        }
         release {
+            keyAlias keystoreAlias
+            keyPassword keystoreAliasPSW
+            storeFile keyFile
+            storePassword keystorePSW
+        }
+    }*/
+
+    //打包配置
+    buildTypes {
+        debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"//显示log
+            versionNameSuffix "-debug"
             minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+           // signingConfig signingConfigs.debug
+        }
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
+            minifyEnabled true     //混淆
+            zipAlignEnabled true    //Zipalign优化
+            shrinkResources true  // 移除无用的resource文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+           // signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为2015-01-15_frame_V1.0.apk
+                        def fileName = "${releaseTime()}_frame_${defaultConfig.versionName}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
     }
 }

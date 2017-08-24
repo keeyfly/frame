@@ -16,15 +16,15 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class FrameModel<T> {
+public class FrameModel<T> implements IModel {
     protected FrameRequestFailListener frameRequestFailListener;
     protected Observable.Transformer transformer;
     protected Context mContext;
 
-    public FrameModel(Context mContext, FrameRequestFailListener frameRequestFailListener) {
+   /* public FrameModel(Context mContext, FrameRequestFailListener frameRequestFailListener) {
         this.mContext = mContext;
         this.frameRequestFailListener = frameRequestFailListener;
-    }
+    }*/
 
     public void setTransformer(Observable.Transformer transformer) {
         this.transformer = transformer;

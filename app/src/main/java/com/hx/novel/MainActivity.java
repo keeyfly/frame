@@ -3,19 +3,19 @@ package com.hx.novel;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hx.novel.frame.base.BaseCompatActivity;
 import com.mylibrary.picture.PictureView;
 import com.tangxiaolv.telegramgallery.GalleryActivity;
 
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseCompatActivity {
 
 
     private Button takePhoto;

@@ -38,6 +38,7 @@ public class FrameRetrofit {
                 .baseUrl(Constant.BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) // 使用RxJava作为回调适配器
                 .addConverterFactory(GsonConverterFactory.create())// 使用G_SON作为数据转换器
+                .validateEagerly(true)//是否在调用create(Class)时检测接口定义是否正确，而不是在调用方法才检测，适合在开发、测试时使用
                 .build();
         apiService = retrofit.create(RequestApiClient.class);
     }

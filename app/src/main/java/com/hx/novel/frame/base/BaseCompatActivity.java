@@ -11,13 +11,12 @@ import com.hx.novel.R;
 import com.hx.novel.common.util.DialogHelper;
 import com.hx.novel.frame.api.MyApplication;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 
 /**
  * Created by Administrator on 2016/10/20.
  */
-public class BaseCompatActivity extends RxAppCompatActivity {
+public class BaseCompatActivity extends BaseSliderActivity {
     public Context mContext;
     private MyApplication application;
 
